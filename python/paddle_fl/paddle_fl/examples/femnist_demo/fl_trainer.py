@@ -61,7 +61,7 @@ def train_test(train_test_program, train_test_feed, train_test_reader):
 
 epoch_id = 0
 step = 0
-epoch = 30
+epoch = 10
 count_by_step = False
 if count_by_step:
     output_folder = "model_node%d" % trainer_id
@@ -113,4 +113,4 @@ while not trainer.stop():
     print("Test with epoch %d, accuracy: %s" % (epoch_id, acc_val))
     if trainer_id == 0:
         save_dir = (output_folder + "/epoch_%d") % epoch_id
-        trainer.save_inference_program(output_folder)
+        trainer.save_inference_program(save_dir)
