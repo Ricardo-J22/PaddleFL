@@ -14,7 +14,7 @@
 
 from paddle_fl.paddle_fl.core.trainer.fl_trainer import FLTrainerFactory
 from paddle_fl.paddle_fl.core.master.fl_job import FLRunTimeJob
-import paddle_fl.paddle_fl.dataset.femnist as femnist
+import femnist
 import numpy
 import sys
 import paddle
@@ -22,6 +22,8 @@ import paddle.fluid as fluid
 import logging
 import math
 import time
+
+
 
 logging.basicConfig(
     filename="test.log",
