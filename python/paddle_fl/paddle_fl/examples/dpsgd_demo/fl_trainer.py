@@ -21,6 +21,7 @@ import paddle.fluid as fluid
 import logging
 import math
 import time
+import paddle.nn.functional as F
 
 logging.basicConfig(
     filename="test.log",
@@ -73,7 +74,7 @@ epoch_id = 0
 step = 0
 while not trainer.stop():
     epoch_id += 1
-    if epoch_id > 30:
+    if epoch_id > 50:
         break
     print("{} Epoch {} start train".format(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())), epoch_id))
     for step_id, data in enumerate(train_reader()):
@@ -92,3 +93,5 @@ while not trainer.stop():
 
     save_dir = (output_folder + "/epoch_%d") % epoch_id
     trainer.save_inference_program(output_folder)
+
+
