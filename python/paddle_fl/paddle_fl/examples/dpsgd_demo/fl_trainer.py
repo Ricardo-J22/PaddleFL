@@ -21,7 +21,7 @@ import paddle.fluid as fluid
 import logging
 import math
 import time
-import paddle.nn.functional as F
+
 
 logging.basicConfig(
     filename="test.log",
