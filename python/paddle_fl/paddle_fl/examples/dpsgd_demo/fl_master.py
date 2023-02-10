@@ -70,5 +70,5 @@ strategy.sigma = CLIP * SIGMA
 endpoints = ["127.0.0.1:8181"]
 output = "fl_job_config"
 job_generator.generate_fl_job(
-    strategy, server_endpoints=endpoints, worker_num=4, output=output)
+    strategy, server_endpoints=endpoints, worker_num=1, output=output)
 # fl_job_config will  be dispatched to workers
