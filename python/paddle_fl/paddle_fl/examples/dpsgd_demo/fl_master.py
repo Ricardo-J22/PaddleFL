@@ -48,7 +48,7 @@ CLIP = 4.0
 batch_size = 64
 
 job_generator = JobGenerator()
-optimizer = fluid.optimizer.SGD(learning_rate=0.0001)
+optimizer = fluid.optimizer.SGD(learning_rate=0.001)
 job_generator.set_optimizer(optimizer)
 job_generator.set_losses([model.loss])
 job_generator.set_startup_program(model.startup_program)
@@ -60,7 +60,7 @@ build_strategy = FLStrategyFactory()
 build_strategy.dpsgd = True
 build_strategy.inner_step = 1
 strategy = build_strategy.create_fl_strategy()
-strategy.learning_rate = 0.0001
+strategy.learning_rate = 0.001
 strategy.clip = CLIP
 strategy.batch_size = float(batch_size)
 strategy.sigma = CLIP * SIGMA
