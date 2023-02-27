@@ -23,13 +23,16 @@ class Model(object):
     def __init__(self):
         pass
 
+
+
     def lr_network(self):
         self.inputs = fluid.layers.data(
             name='img', shape=[1, 28, 28], dtype="float32")
         self.label = fluid.layers.data(name='label', shape=[1], dtype='int64')
-        self.predict = fluid.layers.fc(input=self.inputs,
-                                       size=10,
-                                       act='softmax')
+        # self.predict = fluid.layers.fc(input=self.inputs,
+        #                                size=10,
+        #                                act='softmax')
+        self.predict = multilayer_perceptron()
         self.sum_cost = fluid.layers.cross_entropy(
             input=self.predict, label=self.label)
         self.accuracy = fluid.layers.accuracy(
@@ -37,9 +40,29 @@ class Model(object):
         self.loss = fluid.layers.mean(self.sum_cost)
         self.startup_program = fluid.default_startup_program()
 
+def multilayer_perceptron():
+    """
+    Define multilayer perceptron classifier:
+    Multilayer perceptron with two hidden layers (fully connected layers)
+    The activation function of the first two hidden layers uses ReLU, and the activation function of the output layer uses Softmax.
+
+    Return:
+    predict_image -- result of classification
+    """
+    # input raw image data in size of 28*28*1
+    img = fluid.data(name='img', shape=[None, 1, 28, 28], dtype='float32')
+    # the first fully connected layer, whose activation function is ReLU
+    hidden = fluid.layers.fc(input=img, size=200, act='relu')
+    # the second fully connected layer, whose activation function is ReLU
+    hidden = fluid.layers.fc(input=hidden, size=200, act='relu')
+    # With softmax as the fully connected output layer of the activation function, the size of the output layer must be 10
+    prediction = fluid.layers.fc(input=hidden, size=10, act='softmax')
+    return prediction
+
 
 model = Model()
 model.lr_network()
+
 
 STEP_EPSILON = 0.1
 DELTA = 0.00001
@@ -55,6 +78,7 @@ job_generator.set_startup_program(model.startup_program)
 job_generator.set_infer_feed_and_target_names(
     [model.inputs.name, model.label.name],
     [model.loss.name, model.accuracy.name])
+
 
 build_strategy = FLStrategyFactory()
 build_strategy.dpsgd = True
