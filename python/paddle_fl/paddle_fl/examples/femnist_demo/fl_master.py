@@ -56,7 +56,7 @@ model = Model()
 model.cnn()
 
 job_generator = JobGenerator()
-optimizer = fluid.optimizer.Adam(learning_rate=0.001)
+optimizer = fluid.optimizer.Adam(learning_rate=0.0001)
 job_generator.set_optimizer(optimizer)
 job_generator.set_losses([model.loss])
 job_generator.set_startup_program(model.startup_program)
@@ -68,6 +68,7 @@ build_strategy = FLStrategyFactory()
 build_strategy.fed_avg = True
 build_strategy.inner_step = 1
 strategy = build_strategy.create_fl_strategy()
+
 
 endpoints = ["127.0.0.1:8181"]
 output = "fl_job_config"

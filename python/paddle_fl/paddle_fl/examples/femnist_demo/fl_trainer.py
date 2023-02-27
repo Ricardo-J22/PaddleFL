@@ -23,8 +23,6 @@ import logging
 import math
 import time
 
-
-
 logging.basicConfig(
     filename="test.log",
     filemode="w",
@@ -63,7 +61,7 @@ def train_test(train_test_program, train_test_feed, train_test_reader):
 
 epoch_id = 0
 step = 0
-epoch = 30
+epoch = 50
 count_by_step = False
 if count_by_step:
     output_folder = "model_node%d" % trainer_id
@@ -75,8 +73,8 @@ while not trainer.stop():
     epoch_id += 1
     if epoch_id > epoch:
         break
-    print("{} Epoch {} start train".format(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())), epoch_id))
-    #train_data,test_data= data_generater(trainer_id,inner_step=trainer._step,batch_size=64,count_by_step=count_by_step)
+    print("{} Epoch {} start train".format(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())), epoch_id))
+    # train_data,test_data= data_generater(trainer_id,inner_step=trainer._step,batch_size=64,count_by_step=count_by_step)
     train_reader = paddle.batch(
         paddle.reader.shuffle(
             femnist.train(
@@ -113,6 +111,5 @@ while not trainer.stop():
         train_test_feed=feeder)
 
     print("Test with epoch %d, accuracy: %s" % (epoch_id, acc_val))
-    if trainer_id == 0:
-        save_dir = (output_folder + "/epoch_%d") % epoch_id
-        trainer.save_inference_program(save_dir)
+    save_dir = (output_folder + "/epoch_%d") % epoch_id
+    trainer.save_inference_program(save_dir)
