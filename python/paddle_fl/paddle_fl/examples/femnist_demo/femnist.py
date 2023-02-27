@@ -54,7 +54,7 @@ def train(trainer_id, inner_step, batch_size, count_by_step):
         json_train = json.load(train_file)
         users = json_train["users"]
         rand = random.randrange(
-            0, 1000)  # random choose a user from each trainer
+            0, len(users))  # random choose a user from each trainer
         # print('user length: ' + str(len(users)))
         cur_user = users[rand]
         print('training using rand '+ str(rand) + ' ' + cur_user)
