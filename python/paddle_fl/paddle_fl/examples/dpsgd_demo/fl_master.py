@@ -27,10 +27,10 @@ class Model(object):
         self.inputs = fluid.layers.data(
             name='img', shape=[1, 28, 28], dtype="float32")
         self.label = fluid.layers.data(name='label', shape=[1], dtype='int64')
-        # self.predict = fluid.layers.fc(input=self.inputs,
-        #                                size=10,
-        #                                act='softmax')
-        self.predict = multilayer_perceptron(self.inputs)
+        self.predict = fluid.layers.fc(input=self.inputs,
+                                       size=10,
+                                       act='softmax')
+        # self.predict = multilayer_perceptron(self.inputs)
         self.sum_cost = fluid.layers.cross_entropy(
             input=self.predict, label=self.label)
         self.accuracy = fluid.layers.accuracy(
@@ -38,6 +38,34 @@ class Model(object):
         self.loss = fluid.layers.mean(self.sum_cost)
         self.startup_program = fluid.default_startup_program()
 
+    def cnn(self):
+        self.inputs = fluid.layers.data(
+            name='img', shape=[1, 28, 28], dtype="float32")
+        self.label = fluid.layers.data(name='label', shape=[1], dtype='int64')
+        self.conv_pool_1 = fluid.nets.simple_img_conv_pool(
+            input=self.inputs,
+            num_filters=20,
+            filter_size=5,
+            pool_size=2,
+            pool_stride=2,
+            act='relu')
+        self.conv_pool_2 = fluid.nets.simple_img_conv_pool(
+            input=self.conv_pool_1,
+            num_filters=50,
+            filter_size=5,
+            pool_size=2,
+            pool_stride=2,
+            act='relu')
+
+        self.predict = self.predict = fluid.layers.fc(input=self.conv_pool_2,
+                                                      size=62,
+                                                      act='softmax')
+        self.cost = fluid.layers.cross_entropy(
+            input=self.predict, label=self.label)
+        self.accuracy = fluid.layers.accuracy(
+            input=self.predict, label=self.label)
+        self.loss = fluid.layers.mean(self.cost)
+        self.startup_program = fluid.default_startup_program()
 
 def multilayer_perceptron(inputs):
     """
@@ -60,7 +88,8 @@ def multilayer_perceptron(inputs):
 
 
 model = Model()
-model.lr_network()
+# model.lr_network()
+model.cnn()
 
 STEP_EPSILON = 0.1
 DELTA = 0.00001
