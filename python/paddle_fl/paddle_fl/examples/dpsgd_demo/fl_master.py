@@ -51,9 +51,9 @@ def multilayer_perceptron(inputs):
     # input raw image data in size of 28*28*1
 
     # the first fully connected layer, whose activation function is ReLU
-    hidden = fluid.layers.fc(input=inputs, size=200, act='relu')
+    hidden = fluid.layers.fc(input=inputs, size=200, act='tanh')
     # the second fully connected layer, whose activation function is ReLU
-    hidden = fluid.layers.fc(input=hidden, size=200, act='relu')
+    hidden = fluid.layers.fc(input=hidden, size=200, act='tanh')
     # With softmax as the fully connected output layer of the activation function, the size of the output layer must be 10
     prediction = fluid.layers.fc(input=hidden, size=10, act='softmax')
     return prediction
