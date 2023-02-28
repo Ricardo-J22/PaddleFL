@@ -58,7 +58,7 @@ class Model(object):
             act='relu')
 
         self.predict = self.predict = fluid.layers.fc(input=self.conv_pool_2,
-                                                      size=62,
+                                                      size=10,
                                                       act='softmax')
         self.cost = fluid.layers.cross_entropy(
             input=self.predict, label=self.label)
