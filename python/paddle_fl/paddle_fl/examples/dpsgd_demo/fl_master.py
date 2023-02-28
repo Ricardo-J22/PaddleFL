@@ -56,7 +56,6 @@ class Model(object):
             pool_size=2,
             pool_stride=2,
             act='relu')
-
         self.predict = self.predict = fluid.layers.fc(input=self.conv_pool_2,
                                                       size=10,
                                                       act='softmax')
@@ -88,8 +87,8 @@ def multilayer_perceptron(inputs):
 
 
 model = Model()
-# model.lr_network()
-model.cnn()
+model.lr_network()
+# model.cnn()
 
 STEP_EPSILON = 0.1
 DELTA = 0.00001

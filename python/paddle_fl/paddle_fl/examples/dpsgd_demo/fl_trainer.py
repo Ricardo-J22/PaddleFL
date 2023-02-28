@@ -46,6 +46,7 @@ train_reader = paddle.batch(
     paddle.reader.shuffle(
         paddle.dataset.mnist.train(), buf_size=500),
     batch_size=64)
+
 test_reader = paddle.batch(paddle.dataset.mnist.test(), batch_size=64)
 
 img = fluid.layers.data(name='img', shape=[1, 28, 28], dtype='float32')
@@ -74,7 +75,7 @@ epoch_id = 0
 step = 0
 while not trainer.stop():
     epoch_id += 1
-    if epoch_id > 50:
+    if epoch_id > 30:
         break
     print("{} Epoch {} start train".format(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())), epoch_id))
     for step_id, data in enumerate(train_reader()):
