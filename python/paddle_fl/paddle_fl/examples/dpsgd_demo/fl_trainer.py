@@ -44,7 +44,7 @@ test_program = trainer._main_program.clone(for_test=True)
 
 train_reader = paddle.batch(
     paddle.reader.shuffle(
-        paddle.dataset.mnist.train(), buf_size=500),
+        paddle.dataset.mnist.train(), buf_size=60000),
     batch_size=64)
 
 test_reader = paddle.batch(paddle.dataset.mnist.test(), batch_size=64)
